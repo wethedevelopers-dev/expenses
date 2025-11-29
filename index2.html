@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Memory Realm | Premium Quantum Physics Experience</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Howler.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Velocity.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
+    <style>
+        :root {
+            --nebula-purple: #4B0082;
+            --quantum-blue: #00BFFF;
+            --energy-orange: #FF4500;
+            --quantum-field: #0a0014;
+            --quantum-glow: rgba(75, 0, 130, 0.7);
+            --hologram-teal: #20B2AA;
+            --multiverse-gold: #FFD700;
+            --antimatter-red: #FF0055;
+            --dark-matter: #1a0b2e;
+            --quantum-foam: #9370DB;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--quantum-field);
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        #quantum-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .quantum-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .game-container {
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quantum-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: rgba(11, 0, 20, 0.7);
+            border-radius: 20px;
+            border: 2px solid var(--quantum-blue);
+            box-shadow: 0 0 30px var(--quantum-blue), inset 0 0 20px rgba(0, 191, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .quantum-header::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--quantum-blue), var(--nebula-purple), var(--energy-orange));
+            z-index: -1;
+            border-radius: 25px;
+            opacity: 0.3;
+            filter: blur(15px);
+        }
+        
+        .game-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(to right, var(--quantum-blue), var(--energy-orange), var(--hologram-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .game-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--quantum-blue), transparent);
+            border-radius: 50%;
+        }
+        
+        .game-subtitle {
+            font-size: 1.3rem;
+            color: var(--hologram-teal);
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .quantum-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(20, 5, 35, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            border: 1px solid var(--nebula-purple);
+            box-shadow: 0 0 15px rgba(75, 0, 130, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--quantum-blue), var(--energy-orange));
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 191, 255, 0.4);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--quantum-blue);
+            margin-bottom: 5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--hologram-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .game-board-container {
+            position: relative;
+            margin: 30px auto;
+            max-width: 1000px;
+            perspective: 1000px;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+        
+        .quantum-card {
+            height: 180px;
+            background: rgba(20, 5, 35, 0.9);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s, box-shadow 0.3s, filter 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--nebula-purple);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .quantum-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--quantum-blue) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .quantum-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(255, 69, 0, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .quantum-card:hover::before {
+            opacity: 0.1;
+        }
+        
+        .quantum-card:hover::after {
+            opacity: 1;
+        }
+        
+        .quantum-card:hover {
+            box-shadow: 0 0 20px var(--quantum-blue);
+            transform: translateY(-10px) rotateX(5deg) scale(1.02);
+            filter: brightness(1.2);
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, var(--nebula-purple), #2a004e);
+            transform: rotateY(180deg);
+            padding: 10px;
+        }
+        
+        .card-back {
+            background: rgba(30, 10, 50, 0.95);
+            border: 2px solid var(--quantum-blue);
+        }
+        
+        .card-back::after {
+            content: '?';
+            font-size: 4rem;
+            color: var(--quantum-blue);
+            text-shadow: 0 0 15px var(--quantum-blue);
+            font-weight: 900;
+        }
+        
+        .quantum-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .quantum-card.matched {
+            border-color: var(--energy-orange);
+            box-shadow: 0 0 25px var(--energy-orange);
+        }
+        
+        .quantum-card.matched .card-front {
+            background: linear-gradient(135deg, var(--energy-orange), #cc3700);
+        }
+        
+        .superposition {
+            animation: superposition 3s infinite;
+        }
+        
+        @keyframes superposition {
+            0% { 
+                opacity: 0.8; 
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 0 10px var(--quantum-blue);
+            }
+            25% { 
+                opacity: 1; 
+                transform: scale(1.03) rotate(1deg);
+                box-shadow: 0 0 20px var(--quantum-blue);
+            }
+            50% { 
+                opacity: 0.9; 
+                transform: scale(1.05) rotate(0deg);
+                box-shadow: 0 0 15px var(--hologram-teal);
+            }
+            75% { 
+                opacity: 1; 
+                transform: scale(1.03) rotate(-1deg);
+                box-shadow: 0 0 20px var(--hologram-teal);
+            }
+            100% { 
+                opacity: 0.8; 
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 0 10px var(--quantum-blue);
+            }
+        }
+        
+        .entangled {
+            position: relative;
+        }
+        
+        .entangled::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid var(--energy-orange);
+            border-radius: 18px;
+            animation: pulse 2s infinite;
+            z-index: -1;
+        }
+        
+        @keyframes pulse {
+            0% { 
+                box-shadow: 0 0 5px var(--energy-orange);
+                opacity: 0.7;
+            }
+            50% { 
+                box-shadow: 0 0 25px var(--energy-orange);
+                opacity: 1;
+            }
+            100% { 
+                box-shadow: 0 0 5px var(--energy-orange);
+                opacity: 0.7;
+            }
+        }
+        
+        .quantum-controls {
+            background: rgba(11, 0, 20, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 40px;
+            border: 2px solid var(--nebula-purple);
+            box-shadow: 0 0 20px rgba(75, 0, 130, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .control-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--hologram-teal);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .quantum-btn {
+            background: linear-gradient(135deg, var(--nebula-purple), var(--quantum-blue));
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 8px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Exo 2', sans-serif;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .quantum-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .quantum-btn:hover::before {
+            left: 100%;
+        }
+        
+        .quantum-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 191, 255, 0.5);
+        }
+        
+        .quantum-btn:active {
+            transform: translateY(0);
+        }
+        
+        .quantum-btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-energy {
+            background: linear-gradient(135deg, var(--energy-orange), #ff6b35);
+        }
+        
+        .btn-multiverse {
+            background: linear-gradient(135deg, var(--multiverse-gold), #ffaa00);
+        }
+        
+        .btn-antimatter {
+            background: linear-gradient(135deg, var(--antimatter-red), #ff3377);
+        }
+        
+        .quantum-info {
+            background: rgba(11, 0, 20, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 40px;
+            border: 2px solid var(--quantum-blue);
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--hologram-teal);
+            font-size: 1.8rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .info-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--quantum-blue), var(--energy-orange));
+            border-radius: 3px;
+        }
+        
+        .quantum-progress {
+            height: 12px;
+            background: rgba(30, 10, 50, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+            border: 1px solid var(--nebula-purple);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--quantum-blue), var(--energy-orange));
+            border-radius: 10px;
+            transition: width 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: progressShine 2s infinite;
+        }
+        
+        @keyframes progressShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .quantum-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--quantum-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .quantum-tooltip {
+            position: absolute;
+            background: rgba(20, 5, 35, 0.95);
+            border: 1px solid var(--quantum-blue);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            font-size: 0.9rem;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .multiverse-preview {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+        .multiverse-content {
+            background: rgba(11, 0, 20, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            border: 2px solid var(--multiverse-gold);
+            box-shadow: 0 0 30px var(--multiverse-gold);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.5s;
+        }
+        
+        .multiverse-title {
+            font-size: 2.5rem;
+            color: var(--multiverse-gold);
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .multiverse-active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .multiverse-active .multiverse-content {
+            transform: scale(1);
+        }
+        
+        .quantum-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+        .quantum-modal-content {
+            background: rgba(11, 0, 20, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 90%;
+            border: 2px solid var(--quantum-blue);
+            box-shadow: 0 0 30px var(--quantum-blue);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.5s;
+            position: relative;
+        }
+        
+        .modal-active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-active .quantum-modal-content {
+            transform: scale(1);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--quantum-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--energy-orange);
+        }
+        
+        .card-symbol {
+            font-size: 4rem;
+            color: white;
+            text-shadow: 0 0 10px currentColor;
+            font-weight: 700;
+        }
+        
+        .quantum-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .quantum-tunnel {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--quantum-blue) 0%, transparent 70%);
+            filter: blur(10px);
+            opacity: 0;
+        }
+        
+        .energy-wave {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            border: 2px solid var(--energy-orange);
+            opacity: 0;
+        }
+        
+        .floating-orbs {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--quantum-blue);
+            box-shadow: 0 0 15px var(--quantum-blue);
+            opacity: 0.7;
+        }
+        
+        .quantum-achievement {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 5, 35, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid var(--multiverse-gold);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateX(120%);
+            transition: transform 0.5s;
+            z-index: 100;
+            max-width: 300px;
+        }
+        
+        .achievement-active {
+            transform: translateX(0);
+        }
+        
+        .achievement-icon {
+            font-size: 1.5rem;
+            color: var(--multiverse-gold);
+            margin-right: 10px;
+        }
+        
+        .achievement-title {
+            font-weight: 600;
+            color: var(--multiverse-gold);
+            margin-bottom: 5px;
+        }
+        
+        .quantum-settings {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .settings-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--nebula-purple), var(--quantum-blue));
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .settings-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        .settings-panel {
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: rgba(20, 5, 35, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            border: 1px solid var(--quantum-blue);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .settings-active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .settings-title {
+            color: var(--hologram-teal);
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .setting-item {
+            margin-bottom: 15px;
+        }
+        
+        .setting-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--quantum-blue);
+        }
+        
+        .setting-control {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            background: rgba(30, 10, 50, 0.8);
+            border: 1px solid var(--nebula-purple);
+            color: white;
+        }
+        
+        .quantum-tutorial {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .tutorial-content {
+            background: rgba(11, 0, 20, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            border: 2px solid var(--hologram-teal);
+            box-shadow: 0 0 30px var(--hologram-teal);
+            position: relative;
+        }
+        
+        .tutorial-slide {
+            display: none;
+        }
+        
+        .tutorial-active {
+            display: block;
+        }
+        
+        .tutorial-title {
+            font-size: 2rem;
+            color: var(--hologram-teal);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tutorial-text {
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .tutorial-nav {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .tutorial-indicators {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .tutorial-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .indicator-active {
+            background: var(--hologram-teal);
+        }
+        
+        .card-symbol-element {
+            font-size: 3.5rem;
+            color: var(--quantum-blue);
+            text-shadow: 0 0 15px var(--quantum-blue);
+            font-weight: 900;
+        }
+        
+        .card-symbol-quantum {
+            font-size: 3.5rem;
+            color: var(--energy-orange);
+            text-shadow: 0 0 15px var(--energy-orange);
+            font-weight: 900;
+        }
+        
+        .card-symbol-particle {
+            font-size: 3.5rem;
+            color: var(--hologram-teal);
+            text-shadow: 0 0 15px var(--hologram-teal);
+            font-weight: 900;
+        }
+        
+        .card-symbol-multiverse {
+            font-size: 3.5rem;
+            color: var(--multiverse-gold);
+            text-shadow: 0 0 15px var(--multiverse-gold);
+            font-weight: 900;
+        }
+        
+        @media (max-width: 1200px) {
+            .game-board {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .quantum-card {
+                height: 160px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .game-board {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .quantum-card {
+                height: 140px;
+            }
+            
+            .game-title {
+                font-size: 3rem;
+            }
+            
+            .stat-value {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .game-board {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            
+            .quantum-card {
+                height: 120px;
+            }
+            
+            .game-title {
+                font-size: 2.5rem;
+            }
+            
+            .quantum-stats {
+                flex-direction: column;
+            }
+            
+            .stat-card {
+                min-width: auto;
+            }
+            
+            .card-symbol-element, .card-symbol-quantum, .card-symbol-particle, .card-symbol-multiverse {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .game-board {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .quantum-card {
+                height: 100px;
+            }
+            
+            .game-title {
+                font-size: 2rem;
+            }
+            
+            .quantum-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                margin: 5px;
+            }
+            
+            .card-symbol-element, .card-symbol-quantum, .card-symbol-particle, .card-symbol-multiverse {
+                font-size: 2rem;
+            }
+            
+            .card-back::after {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .game-board {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quantum-card {
+                height: 110px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Quantum Canvas -->
+    <canvas id="quantum-canvas"></canvas>
+    
+    <!-- Particles.js Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Quantum Noise Overlay -->
+    <div class="quantum-noise"></div>
+    
+    <!-- Quantum Effects Layer -->
+    <div class="quantum-effects" id="quantum-effects"></div>
+    
+    <!-- Game Container -->
+    <div class="game-container">
+        <div class="container">
+            <!-- Game Header -->
+            <div class="quantum-header">
+                <h1 class="game-title">QUANTUM MEMORY REALM</h1>
+                <p class="game-subtitle">Where Observation Collapses Reality & Entanglement Defies Distance</p>
+                
+                <!-- Quantum Stats -->
+                <div class="quantum-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="moves">0</div>
+                        <div class="stat-label">Quantum Observations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pairs">0</div>
+                        <div class="stat-label">Collapsed States</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="level">1</div>
+                        <div class="stat-label">Multiverse Level</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="entangled-count">0</div>
+                        <div class="stat-label">Entangled Pairs</div>
+                    </div>
+                </div>
+                
+                <!-- Quantum Progress -->
+                <div class="quantum-progress">
+                    <div class="progress-bar" id="quantum-progress" style="width: 0%"></div>
+                </div>
+                <p class="text-center mt-2">Wave Function Collapse Probability: <span id="collapse-prob">85%</span></p>
+            </div>
+            
+            <!-- Game Board -->
+            <div class="game-board-container">
+                <div class="game-board" id="game-board">
+                    <!-- Quantum cards will be generated here -->
+                </div>
+            </div>
+            
+            <!-- Game Controls -->
+            <div class="quantum-controls">
+                <h3 class="control-title">Quantum Control Panel</h3>
+                <div class="text-center">
+                    <button class="quantum-btn" id="start-btn">
+                        <i class="fas fa-atom"></i> Initialize Quantum Field
+                    </button>
+                    <button class="quantum-btn btn-energy" id="reset-btn">
+                        <i class="fas fa-bolt"></i> Collapse Wave Function
+                    </button>
+                    <button class="quantum-btn btn-multiverse" id="hint-btn">
+                        <i class="fas fa-infinity"></i> Quantum Entanglement Hint
+                    </button>
+                    <button class="quantum-btn" id="sound-btn">
+                        <i class="fas fa-volume-up"></i> Toggle Quantum Resonance
+                    </button>
+                    <button class="quantum-btn btn-antimatter" id="tutorial-btn">
+                        <i class="fas fa-graduation-cap"></i> Quantum Tutorial
+                    </button>
+                    <button class="quantum-btn btn-multiverse" id="multiverse-btn">
+                        <i class="fas fa-layer-group"></i> Multiverse Preview
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quantum Mechanics Explanation -->
+            <div class="quantum-info">
+                <h3 class="info-title">Quantum Principles in Action</h3>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <h5><i class="fas fa-superscript text-primary"></i> Superposition</h5>
+                        <p>Cards exist in multiple states simultaneously until observed, visually represented as translucent overlapping possibilities.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5><i class="fas fa-link text-warning"></i> Quantum Entanglement</h5>
+                        <p>Special card pairs become intrinsically linked - observing one provides quantum information about its partner.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5><i class="fas fa-eye text-info"></i> Observer Effect</h5>
+                        <p>The mere act of observation influences quantum systems, with frequently observed cards becoming more stable.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5><i class="fas fa-code-branch text-success"></i> Multiverse Theory</h5>
+                        <p>Significant decisions create parallel game universes that players can occasionally glimpse or interact with.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5><i class="fas fa-random text-danger"></i> Quantum Tunneling</h5>
+                        <p>Cards can occasionally tunnel through the quantum barrier, appearing in unexpected locations.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5><i class="fas fa-wave-square text-purple"></i> Wave-Particle Duality</h5>
+                        <p>Cards exhibit both wave-like and particle-like properties depending on how they're observed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quantum Settings Panel -->
+    <div class="quantum-settings">
+        <button class="settings-btn" id="settings-toggle">
+            <i class="fas fa-cog"></i>
+        </button>
+        <div class="settings-panel" id="settings-panel">
+            <h4 class="settings-title">Quantum Settings</h4>
+            <div class="setting-item">
+                <label class="setting-label">Animation Speed</label>
+                <select class="setting-control" id="animation-speed">
+                    <option value="slow">Slow Quantum Decay</option>
+                    <option value="normal" selected>Standard Flow</option>
+                    <option value="fast">Rapid Collapse</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label class="setting-label">Difficulty Level</label>
+                <select class="setting-control" id="difficulty">
+                    <option value="easy">Classical Physics</option>
+                    <option value="medium" selected>Quantum Beginner</option>
+                    <option value="hard">Quantum Expert</option>
+                    <option value="extreme">Multiverse Master</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label class="setting-label">Visual Effects</label>
+                <select class="setting-control" id="visual-effects">
+                    <option value="minimal">Minimal Decoherence</option>
+                    <option value="normal" selected>Standard Field</option>
+                    <option value="high">High Energy State</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label class="setting-label">Card Set</label>
+                <select class="setting-control" id="card-set">
+                    <option value="quantum">Quantum Symbols</option>
+                    <option value="elements" selected>Elementary Particles</option>
+                    <option value="astronomy">Celestial Bodies</option>
+                    <option value="mathematics">Mathematical Symbols</option>
+                </select>
+            </div>
+            <div class="text-center mt-3">
+                <button class="quantum-btn" id="apply-settings">Apply Quantum Configuration</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quantum Achievement Notification -->
+    <div class="quantum-achievement" id="achievement">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-trophy achievement-icon"></i>
+            <div>
+                <div class="achievement-title" id="achievement-title">Quantum Novice</div>
+                <div id="achievement-desc">First pair matched successfully!</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Multiverse Preview Modal -->
+    <div class="multiverse-preview" id="multiverse-preview">
+        <div class="multiverse-content">
+            <h2 class="multiverse-title">Multiverse Preview</h2>
+            <p>You've unlocked a glimpse into parallel quantum realities!</p>
+            <div class="row mt-4">
+                <div class="col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="mv-moves">0</div>
+                        <div class="stat-label">Alternate Moves</div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="mv-pairs">0</div>
+                        <div class="stat-label">Alternate Matches</div>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-3">In this quantum branch, your decisions created different outcomes.</p>
+            <button class="quantum-btn btn-multiverse mt-3" id="close-multiverse">Return to Primary Reality</button>
+        </div>
+    </div>
+    
+    <!-- Quantum Tutorial Modal -->
+<noscript>    <div class="quantum-tutorial" id="quantum-tutorial">
+        <div class="tutorial-content">
+            <button class="close-modal" id="close-tutorial"><i class="fas fa-times"></i></button>
+            
+            <div class="tutorial-slide tutorial-active" id="slide-1">
+                <h2 class="tutorial-title">Welcome to Quantum Memory Realm</h2>
+                <div class="tutorial-text">
+                    <p>Prepare to experience memory matching through the lens of quantum physics. This is not just a game - it's an interactive journey through the strange and wonderful world of quantum mechanics.</p>
+                    <p>In this realm, cards don't simply hide images - they exist in quantum superposition, entangled states, and are subject to the observer effect.</p>
+                </div>
+                <div class="tutorial-nav">
+                    <button class="quantum-btn" id="next-slide-1">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="tutorial-slide" id="slide-2">
+                <h2 class="tutorial-title">Quantum Superposition</h2>
+                <div class="tutorial-text">
+                    <p>In quantum mechanics, particles can exist in multiple states simultaneously until measured.</p>
+                    <p>In Quantum Memory Realm, cards initially exist in superposition - visually represented by their shimmering, uncertain appearance.</p>
+                    <p>When you click a card, you're performing a quantum measurement, collapsing its wave function into a definite state.</p>
+                </div>
+                <div class="tutorial-nav">
+                    <button class="quantum-btn" id="prev-slide-2"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="quantum-btn" id="next-slide-2">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="tutorial-slide" id="slide-3">
+                <h2 class="tutorial-title">Quantum Entanglement</h2>
+                <div class="tutorial-text">
+                    <p>Quantum entanglement is a phenomenon where particles become linked, and the state of one instantly influences the state of another, regardless of distance.</p>
+                    <p>In the game, some card pairs are entangled. When you reveal one entangled card, you'll see a visual connection to its partner across the game board.</p>
+                    <p>Use the "Quantum Entanglement Hint" button to highlight these special pairs.</p>
+                </div>
+                <div class="tutorial-nav">
+                    <button class="quantum-btn" id="prev-slide-3"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="quantum-btn" id="next-slide-3">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="tutorial-slide" id="slide-4">
+                <h2 class="tutorial-title">Observer Effect & Multiverse</h2>
+                <div class="tutorial-text">
+                    <p>The observer effect in quantum physics states that the act of observation changes the system being observed.</p>
+                    <p>In the game, cards that are observed frequently become more stable (easier to match), while unobserved cards exhibit more quantum uncertainty.</p>
+                    <p>As you progress, you'll unlock glimpses into parallel universes where different choices led to alternate outcomes.</p>
+                </div>
+                <div class="tutorial-nav">
+                    <button class="quantum-btn" id="prev-slide-4"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="quantum-btn" id="start-playing">Begin Quantum Journey</button>
+                </div>
+            </div>
+            
+            <div class="tutorial-indicators">
+                <div class="tutorial-indicator indicator-active" data-slide="1"></div>
+                <div class="tutorial-indicator" data-slide="2"></div>
+                <div class="tutorial-indicator" data-slide="3"></div>
+                <div class="tutorial-indicator" data-slide="4"></div>
+            </div>
+        </div>
+    </div></noscript>
+    
+    <!-- Quantum Completion Modal -->
+    <div class="quantum-modal" id="completion-modal">
+        <div class="quantum-modal-content">
+            <button class="close-modal" id="close-completion"><i class="fas fa-times"></i></button>
+            <h2 class="multiverse-title">Quantum State Fully Collapsed!</h2>
+            <div class="my-4">
+                <i class="fas fa-trophy" style="font-size: 4rem; color: var(--multiverse-gold);"></i>
+            </div>
+            <p>You've successfully navigated the quantum realm and collapsed all wave functions!</p>
+            <div class="row mt-4">
+                <div class="col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="final-moves">0</div>
+                        <div class="stat-label">Total Observations</div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="final-time">0:00</div>
+                        <div class="stat-label">Quantum Time</div>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-3">Advancing to <span id="next-level-name">Multiverse Level 2</span></p>
+            <button class="quantum-btn btn-multiverse mt-3" id="next-level">Continue Quantum Journey</button>
+        </div>
+    </div>
+
+    <script>
+        // Extensive game state and configuration
+        const gameState = {
+            cards: [],
+            flippedCards: [],
+            matchedPairs: 0,
+            totalPairs: 8,
+            moves: 0,
+            level: 1,
+            entangledPairs: [],
+            canFlip: true,
+            soundEnabled: true,
+            quantumField: null,
+            scene: null,
+            camera: null,
+            renderer: null,
+            particles: [],
+            startTime: null,
+            currentTime: 0,
+            timerInterval: null,
+            achievements: [],
+            settings: {
+                animationSpeed: 'normal',
+                difficulty: 'medium',
+                visualEffects: 'normal',
+                cardSet: 'elements'
+            },
+            cardSymbols: {
+                quantum: ['Ψ', 'Φ', 'Δ', 'Ω', 'Σ', 'Λ', 'Θ', 'Ξ', 'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 'θ'],
+                elements: ['H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S'],
+                astronomy: ['☉', '☿', '♀', '♁', '♂', '♃', '♄', '⛢', '♆', '☄', '★', '☆', '🌙', '🌍', '🌞', '🪐'],
+                mathematics: ['π', '∞', '√', '∫', '∑', '∆', '∂', '∇', '∏', '∝', '∠', '⊥', '∥', '≡', '≈', '≠']
+            },
+            observerCount: {},
+            quantumTunneling: false,
+            multiverseData: {},
+            activeEffects: []
+        };
+
+        // Initialize the game
+        function initGame() {
+            createQuantumField();
+            setupParticlesJS();
+            generateCards();
+            setupEventListeners();
+            createFloatingOrbs();
+            startTimer();
+            showTutorial();
+            updateDisplay();
+            
+            // Initialize sounds
+            initSounds();
+        }
+
+        // Create Three.js quantum field background
+        function createQuantumField() {
+            // Scene setup
+            gameState.scene = new THREE.Scene();
+            gameState.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            gameState.renderer = new THREE.WebGLRenderer({ 
+                canvas: document.getElementById('quantum-canvas'), 
+                alpha: true,
+                antialias: true 
+            });
+            gameState.renderer.setSize(window.innerWidth, window.innerHeight);
+            gameState.renderer.setPixelRatio(window.devicePixelRatio);
+            
+            // Create a more complex quantum particle system
+            const particleCount = 1500;
+            const particles = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+            
+            for (let i = 0; i < particleCount; i++) {
+                // Random positions in a sphere
+                const i3 = i * 3;
+                const radius = 50;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+                
+                positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i3 + 2] = radius * Math.cos(phi);
+                
+                // Quantum colors (blues, purples, and teals)
+                const colorChoice = Math.random();
+                if (colorChoice < 0.5) {
+                    colors[i3] = 0.2 + Math.random() * 0.3; // R
+                    colors[i3 + 1] = 0.5 + Math.random() * 0.5; // G
+                    colors[i3 + 2] = 0.8 + Math.random() * 0.2; // B
+                } else if (colorChoice < 0.8) {
+                    colors[i3] = 0.5 + Math.random() * 0.3; // R
+                    colors[i3 + 1] = 0.2 + Math.random() * 0.3; // G
+                    colors[i3 + 2] = 0.7 + Math.random() * 0.3; // B
+                } else {
+                    colors[i3] = 0.1 + Math.random() * 0.2; // R
+                    colors[i3 + 1] = 0.7 + Math.random() * 0.3; // G
+                    colors[i3 + 2] = 0.8 + Math.random() * 0.2; // B
+                }
+                
+                sizes[i] = Math.random() * 1.5 + 0.5;
+            }
+            
+            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 1,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                sizeAttenuation: true
+            });
+            
+            gameState.quantumField = new THREE.Points(particles, particleMaterial);
+            gameState.scene.add(gameState.quantumField);
+            
+            // Add a central glowing orb
+            const orbGeometry = new THREE.SphereGeometry(5, 32, 32);
+            const orbMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00BFFF,
+                transparent: true,
+                opacity: 0.3
+            });
+            const centralOrb = new THREE.Mesh(orbGeometry, orbMaterial);
+            gameState.scene.add(centralOrb);
+            
+            gameState.camera.position.z = 40;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                gameState.quantumField.rotation.x += 0.001;
+                gameState.quantumField.rotation.y += 0.002;
+                
+                // Pulsing effect for particles
+                const time = Date.now() * 0.001;
+                const positions = gameState.quantumField.geometry.attributes.position.array;
+                
+                for (let i = 0; i < positions.length; i += 3) {
+                    // Create a gentle floating motion
+                    positions[i] += Math.sin(time + positions[i] * 0.1) * 0.01;
+                    positions[i + 1] += Math.cos(time + positions[i + 1] * 0.1) * 0.01;
+                    positions[i + 2] += Math.sin(time + positions[i + 2] * 0.1) * 0.01;
+                }
+                
+                gameState.quantumField.geometry.attributes.position.needsUpdate = true;
+                
+                // Pulse the central orb
+                centralOrb.scale.x = 1 + Math.sin(time) * 0.1;
+                centralOrb.scale.y = 1 + Math.sin(time) * 0.1;
+                centralOrb.scale.z = 1 + Math.sin(time) * 0.1;
+                
+                gameState.renderer.render(gameState.scene, gameState.camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                gameState.camera.aspect = window.innerWidth / window.innerHeight;
+                gameState.camera.updateProjectionMatrix();
+                gameState.renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Setup Particles.js for quantum foam background
+        function setupParticlesJS() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 150,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: ['#00BFFF', '#4B0082', '#20B2AA', '#FF4500']
+                    },
+                    shape: {
+                        type: 'circle',
+                        stroke: {
+                            width: 0,
+                            color: '#000000'
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#4B0082',
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: 'none',
+                        random: true,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'repulse'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        repulse: {
+                            distance: 100,
+                            duration: 0.4
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+        // Generate quantum cards based on settings
+        function generateCards() {
+            const board = document.getElementById('game-board');
+            board.innerHTML = '';
+            gameState.cards = [];
+            gameState.flippedCards = [];
+            gameState.matchedPairs = 0;
+            gameState.moves = 0;
+            gameState.observerCount = {};
+            
+            // Adjust total pairs based on difficulty
+            switch(gameState.settings.difficulty) {
+                case 'easy':
+                    gameState.totalPairs = 6;
+                    break;
+                case 'medium':
+                    gameState.totalPairs = 8;
+                    break;
+                case 'hard':
+                    gameState.totalPairs = 10;
+                    break;
+                case 'extreme':
+                    gameState.totalPairs = 12;
+                    break;
+            }
+            
+            // Get symbols based on card set
+            const symbols = gameState.cardSymbols[gameState.settings.cardSet].slice(0, gameState.totalPairs);
+            const cardValues = [...symbols, ...symbols];
+            
+            // Shuffle using quantum uncertainty (Fisher-Yates algorithm)
+            for (let i = cardValues.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cardValues[i], cardValues[j]] = [cardValues[j], cardValues[i]];
+            }
+            
+            // Create card elements
+            cardValues.forEach((value, index) => {
+                const card = document.createElement('div');
+                card.className = 'quantum-card superposition';
+                card.dataset.index = index;
+                card.dataset.value = value;
+                card.dataset.observed = 0;
+                
+                const cardInner = document.createElement('div');
+                cardInner.className = 'card-inner';
+                
+                const cardFront = document.createElement('div');
+                cardFront.className = 'card-front';
+                
+                // Add symbol with appropriate styling
+                const symbol = document.createElement('div');
+                symbol.textContent = value;
+                
+                // Apply different styling based on card set
+                if (gameState.settings.cardSet === 'quantum') {
+                    symbol.className = 'card-symbol-quantum';
+                } else if (gameState.settings.cardSet === 'elements') {
+                    symbol.className = 'card-symbol-element';
+                } else if (gameState.settings.cardSet === 'astronomy') {
+                    symbol.className = 'card-symbol-multiverse';
+                } else {
+                    symbol.className = 'card-symbol-particle';
+                }
+                
+                cardFront.appendChild(symbol);
+                
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-back';
+                
+                cardInner.appendChild(cardFront);
+                cardInner.appendChild(cardBack);
+                card.appendChild(cardInner);
+                
+                board.appendChild(card);
+                gameState.cards.push(card);
+                gameState.observerCount[index] = 0;
+            });
+            
+            // Create entangled pairs
+            createEntangledPairs();
+            
+            // Apply quantum tunneling based on level
+            if (gameState.level >= 3) {
+                applyQuantumTunneling();
+            }
+            
+            updateDisplay();
+            resetTimer();
+        }
+
+        // Create quantum entangled pairs
+        function createEntangledPairs() {
+            gameState.entangledPairs = [];
+            const indices = [...Array(gameState.cards.length).keys()];
+            
+            // Shuffle indices
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            
+            // Create entangled pairs based on level and difficulty
+            let entangledCount;
+            switch(gameState.settings.difficulty) {
+                case 'easy':
+                    entangledCount = 1;
+                    break;
+                case 'medium':
+                    entangledCount = Math.min(2, Math.floor(gameState.level / 2) + 1);
+                    break;
+                case 'hard':
+                    entangledCount = Math.min(3, Math.floor(gameState.level / 1.5) + 1);
+                    break;
+                case 'extreme':
+                    entangledCount = Math.min(4, Math.floor(gameState.level) + 1);
+                    break;
+            }
+            
+            for (let i = 0; i < entangledCount * 2; i += 2) {
+                if (i + 1 < indices.length) {
+                    gameState.entangledPairs.push([indices[i], indices[i + 1]]);
+                    
+                    // Mark entangled cards visually
+                    gameState.cards[indices[i]].classList.add('entangled');
+                    gameState.cards[indices[i + 1]].classList.add('entangled');
+                }
+            }
+            
+            document.getElementById('entangled-count').textContent = entangledCount;
+        }
+
+        // Apply quantum tunneling effect
+        function applyQuantumTunneling() {
+            if (Math.random() < 0.3) { // 30% chance of tunneling
+                gameState.quantumTunneling = true;
+                
+                // Select two random cards to swap
+                const index1 = Math.floor(Math.random() * gameState.cards.length);
+                let index2 = Math.floor(Math.random() * gameState.cards.length);
+                while (index2 === index1) {
+                    index2 = Math.floor(Math.random() * gameState.cards.length);
+                }
+                
+                // Swap the card values
+                const tempValue = gameState.cards[index1].dataset.value;
+                gameState.cards[index1].dataset.value = gameState.cards[index2].dataset.value;
+                gameState.cards[index2].dataset.value = tempValue;
+                
+                // Update the card fronts
+                const symbol1 = gameState.cards[index1].querySelector('.card-front div');
+                const symbol2 = gameState.cards[index2].querySelector('.card-front div');
+                
+                if (symbol1 && symbol2) {
+                    symbol1.textContent = gameState.cards[index1].dataset.value;
+                    symbol2.textContent = gameState.cards[index2].dataset.value;
+                }
+                
+                // Show tunneling effect
+                createTunnelingEffect(gameState.cards[index1], gameState.cards[index2]);
+                
+                // Show notification
+                showAchievement('Quantum Tunneling!', 'Cards have tunneled through the quantum barrier!');
+            }
+        }
+
+        // Create quantum tunneling visualization
+        function createTunnelingEffect(card1, card2) {
+            const rect1 = card1.getBoundingClientRect();
+            const rect2 = card2.getBoundingClientRect();
+            
+            const x1 = rect1.left + rect1.width / 2;
+            const y1 = rect1.top + rect1.height / 2;
+            const x2 = rect2.left + rect2.width / 2;
+            const y2 = rect2.top + rect2.height / 2;
+            
+            // Create tunneling portal effect
+            const tunnel = document.createElement('div');
+            tunnel.className = 'quantum-tunnel';
+            tunnel.style.left = `${x1}px`;
+            tunnel.style.top = `${y1}px`;
+            document.getElementById('quantum-effects').appendChild(tunnel);
+            
+            // Animate the tunneling
+            anime({
+                targets: tunnel,
+                left: x2,
+                top: y2,
+                width: 150,
+                height: 150,
+                opacity: [0.8, 0],
+                duration: 1000,
+                easing: 'easeOutCubic',
+                complete: () => {
+                    document.getElementById('quantum-effects').removeChild(tunnel);
+                }
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Card click event
+            document.getElementById('game-board').addEventListener('click', (e) => {
+                const card = e.target.closest('.quantum-card');
+                if (card && !card.classList.contains('flipped') && !card.classList.contains('matched') && gameState.canFlip) {
+                    flipCard(card);
+                }
+            });
+            
+            // Control buttons
+            document.getElementById('start-btn').addEventListener('click', generateCards);
+            document.getElementById('reset-btn').addEventListener('click', resetGame);
+            document.getElementById('hint-btn').addEventListener('click', showEntanglementHint);
+            document.getElementById('sound-btn').addEventListener('click', toggleSound);
+            document.getElementById('tutorial-btn').addEventListener('click', showTutorial);
+            document.getElementById('multiverse-btn').addEventListener('click', showMultiversePreview);
+            
+            // Settings
+            document.getElementById('settings-toggle').addEventListener('click', toggleSettings);
+            document.getElementById('apply-settings').addEventListener('click', applySettings);
+            
+            // Tutorial navigation
+            document.getElementById('next-slide-1').addEventListener('click', () => showTutorialSlide(2));
+            document.getElementById('prev-slide-2').addEventListener('click', () => showTutorialSlide(1));
+            document.getElementById('next-slide-2').addEventListener('click', () => showTutorialSlide(3));
+            document.getElementById('prev-slide-3').addEventListener('click', () => showTutorialSlide(2));
+            document.getElementById('next-slide-3').addEventListener('click', () => showTutorialSlide(4));
+            document.getElementById('prev-slide-4').addEventListener('click', () => showTutorialSlide(3));
+            document.getElementById('start-playing').addEventListener('click', startPlaying);
+            document.getElementById('close-tutorial').addEventListener('click', closeTutorial);
+            
+            // Tutorial indicators
+            document.querySelectorAll('.tutorial-indicator').forEach(indicator => {
+                indicator.addEventListener('click', () => {
+                    const slideNum = parseInt(indicator.dataset.slide);
+                    showTutorialSlide(slideNum);
+                });
+            });
+            
+            // Multiverse
+            document.getElementById('close-multiverse').addEventListener('click', closeMultiversePreview);
+            
+            // Completion modal
+            document.getElementById('close-completion').addEventListener('click', closeCompletionModal);
+            document.getElementById('next-level').addEventListener('click', nextLevel);
+        }
+
+        // Flip a card with quantum animation
+        function flipCard(card) {
+            if (gameState.flippedCards.length < 2) {
+                // Increment observer count
+                const cardIndex = parseInt(card.dataset.index);
+                gameState.observerCount[cardIndex]++;
+                card.dataset.observed = gameState.observerCount[cardIndex];
+                
+                // Apply observer effect - more stable cards are easier to match
+                if (gameState.observerCount[cardIndex] > 2) {
+                    card.style.filter = 'brightness(1.3)';
+                }
+                
+                card.classList.remove('superposition');
+                card.classList.add('flipped');
+                gameState.flippedCards.push(card);
+                
+                // Quantum collapse animation with different speeds
+                let duration = 500;
+                switch(gameState.settings.animationSpeed) {
+                    case 'slow':
+                        duration = 800;
+                        break;
+                    case 'fast':
+                        duration = 300;
+                        break;
+                }
+                
+                anime({
+                    targets: card,
+                    scale: [1, 1.1, 1],
+                    duration: duration,
+                    easing: 'easeInOutQuad'
+                });
+                
+                // Create particle effect
+                createFlipParticles(card);
+                
+                // Check for entanglement
+                checkEntanglement(card);
+                
+                if (gameState.flippedCards.length === 2) {
+                    gameState.moves++;
+                    setTimeout(() => {
+                        checkForMatch();
+                    }, 300);
+                }
+                
+                updateDisplay();
+            }
+        }
+
+        // Create particle effect when flipping a card
+        function createFlipParticles(card) {
+            const rect = card.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'quantum-particle';
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                document.getElementById('quantum-effects').appendChild(particle);
+                
+                anime({
+                    targets: particle,
+                    translateX: () => anime.random(-50, 50),
+                    translateY: () => anime.random(-50, 50),
+                    opacity: [1, 0],
+                    scale: [1, 2],
+                    duration: anime.random(500, 1000),
+                    easing: 'easeOutCubic',
+                    complete: () => {
+                        if (particle.parentNode) {
+                            document.getElementById('quantum-effects').removeChild(particle);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Check if flipped cards are entangled
+        function checkEntanglement(card) {
+            const cardIndex = parseInt(card.dataset.index);
+            
+            // Find if this card is part of an entangled pair
+            for (const pair of gameState.entangledPairs) {
+                if (pair.includes(cardIndex)) {
+                    const partnerIndex = pair[0] === cardIndex ? pair[1] : pair[0];
+                    const partnerCard = gameState.cards[partnerIndex];
+                    
+                    // If partner is not already flipped or matched, show a hint
+                    if (!partnerCard.classList.contains('flipped') && !partnerCard.classList.contains('matched')) {
+                        // Create entanglement visualization
+                        createEntanglementEffect(card, partnerCard);
+                    }
+                    
+                    break;
+                }
+            }
+        }
+
+        // Create visual entanglement effect between cards
+        function createEntanglementEffect(card1, card2) {
+            const rect1 = card1.getBoundingClientRect();
+            const rect2 = card2.getBoundingClientRect();
+            
+            const x1 = rect1.left + rect1.width / 2;
+            const y1 = rect1.top + rect1.height / 2;
+            const x2 = rect2.left + rect2.width / 2;
+            const y2 = rect2.top + rect2.height / 2;
+            
+            // Create multiple connection lines for a more complex effect
+            for (let i = 0; i < 3; i++) {
+                const line = document.createElement('div');
+                line.style.position = 'fixed';
+                line.style.height = '2px';
+                line.style.background = `linear-gradient(to right, ${i === 0 ? 'var(--energy-orange)' : i === 1 ? 'var(--quantum-blue)' : 'var(--hologram-teal)'})`;
+                line.style.transformOrigin = '0 0';
+                line.style.zIndex = '5';
+                line.style.opacity = '0.7';
+                line.style.boxShadow = `0 0 10px ${i === 0 ? 'var(--energy-orange)' : i === 1 ? 'var(--quantum-blue)' : 'var(--hologram-teal)'}`;
+                
+                // Calculate position and rotation
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                
+                line.style.width = `${length}px`;
+                line.style.left = `${x1}px`;
+                line.style.top = `${y1}px`;
+                line.style.transform = `rotate(${angle}deg)`;
+                
+                document.getElementById('quantum-effects').appendChild(line);
+                
+                // Animate the entanglement line
+                anime({
+                    targets: line,
+                    opacity: [0, 0.7, 0],
+                    duration: 2000,
+                    easing: 'easeOutCubic',
+                    complete: () => {
+                        if (line.parentNode) {
+                            document.getElementById('quantum-effects').removeChild(line);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Check if flipped cards match
+        function checkForMatch() {
+            gameState.canFlip = false;
+            
+            const [card1, card2] = gameState.flippedCards;
+            const isMatch = card1.dataset.value === card2.dataset.value;
+            
+            if (isMatch) {
+                // Match found
+                setTimeout(() => {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    
+                    // Quantum energy burst animation
+                    createEnergyBurst(card1);
+                    createEnergyBurst(card2);
+                    
+                    // Create wave effect
+                    createWaveEffect(card1);
+                    
+                    gameState.matchedPairs++;
+                    gameState.flippedCards = [];
+                    gameState.canFlip = true;
+                    
+                    // Check for achievements
+                    checkAchievements();
+                    
+                    // Check for level completion
+                    if (gameState.matchedPairs === gameState.totalPairs) {
+                        levelComplete();
+                    }
+                    
+                    updateDisplay();
+                }, 800);
+            } else {
+                // No match - flip cards back
+                setTimeout(() => {
+                    card1.classList.add('superposition');
+                    card2.classList.add('superposition');
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    
+                    gameState.flippedCards = [];
+                    gameState.canFlip = true;
+                }, 1000);
+            }
+        }
+
+        // Create energy burst effect for matched cards
+        function createEnergyBurst(card) {
+            const rect = card.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'quantum-particle';
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                document.getElementById('quantum-effects').appendChild(particle);
+                
+                anime({
+                    targets: particle,
+                    translateX: Math.cos(i * 18 * Math.PI / 180) * anime.random(30, 80),
+                    translateY: Math.sin(i * 18 * Math.PI / 180) * anime.random(30, 80),
+                    opacity: [1, 0],
+                    scale: [1, 2],
+                    duration: anime.random(600, 1200),
+                    easing: 'easeOutCubic',
+                    complete: () => {
+                        if (particle.parentNode) {
+                            document.getElementById('quantum-effects').removeChild(particle);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Create wave effect for matched cards
+        function createWaveEffect(card) {
+            const rect = card.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            const wave = document.createElement('div');
+            wave.className = 'energy-wave';
+            wave.style.left = `${x}px`;
+            wave.style.top = `${y}px`;
+            document.getElementById('quantum-effects').appendChild(wave);
+            
+            anime({
+                targets: wave,
+                width: 300,
+                height: 300,
+                opacity: [0.7, 0],
+                borderWidth: 10,
+                duration: 1500,
+                easing: 'easeOutCubic',
+                complete: () => {
+                    if (wave.parentNode) {
+                        document.getElementById('quantum-effects').removeChild(wave);
+                    }
+                }
+            });
+        }
+
+        // Check for achievements
+        function checkAchievements() {
+            // First match
+            if (gameState.matchedPairs === 1 && !gameState.achievements.includes('first_match')) {
+                gameState.achievements.push('first_match');
+                showAchievement('Quantum Novice', 'First quantum state collapsed successfully!');
+            }
+            
+            // Halfway point
+            if (gameState.matchedPairs === Math.floor(gameState.totalPairs / 2) && !gameState.achievements.includes('halfway')) {
+                gameState.achievements.push('halfway');
+                showAchievement('Quantum Apprentice', 'Halfway through collapsing the quantum field!');
+            }
+            
+            // Perfect match (no mismatches)
+            if (gameState.matchedPairs === gameState.moves && gameState.matchedPairs > 3 && !gameState.achievements.includes('perfect')) {
+                gameState.achievements.push('perfect');
+                showAchievement('Quantum Savant', 'Perfect quantum observation - no mismatches!');
+            }
+            
+            // Used entanglement hint
+            if (document.getElementById('hint-btn').disabled && !gameState.achievements.includes('entanglement_master')) {
+                gameState.achievements.push('entanglement_master');
+                showAchievement('Entanglement Master', 'Successfully used quantum entanglement!');
+            }
+        }
+
+        // Show achievement notification
+        function showAchievement(title, description) {
+            const achievement = document.getElementById('achievement');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-desc').textContent = description;
+            
+            achievement.classList.add('achievement-active');
+            
+            setTimeout(() => {
+                achievement.classList.remove('achievement-active');
+            }, 5000);
+        }
+
+        // Level completion
+        function levelComplete() {
+            // Stop timer
+            clearInterval(gameState.timerInterval);
+            
+            // Show completion modal
+            document.getElementById('final-moves').textContent = gameState.moves;
+            document.getElementById('final-time').textContent = formatTime(gameState.currentTime);
+            document.getElementById('next-level-name').textContent = `Multiverse Level ${gameState.level + 1}`;
+            
+            document.getElementById('completion-modal').classList.add('modal-active');
+            
+            // Store multiverse data
+            gameState.multiverseData[gameState.level] = {
+                moves: gameState.moves,
+                time: gameState.currentTime,
+                pairs: gameState.matchedPairs
+            };
+        }
+
+        // Next level
+        function nextLevel() {
+            // Increase level
+            gameState.level++;
+            
+            // Close modal
+            document.getElementById('completion-modal').classList.remove('modal-active');
+            
+            // Increase difficulty for next level
+            if (gameState.level % 2 === 0 && gameState.totalPairs < 16) {
+                gameState.totalPairs += 2;
+            }
+            
+            // Generate new cards
+            generateCards();
+        }
+
+        // Reset game
+        function resetGame() {
+            generateCards();
+        }
+
+        // Show entanglement hint
+        function showEntanglementHint() {
+            if (gameState.entangledPairs.length > 0) {
+                // Find an entangled pair where at least one card is not revealed
+                for (const pair of gameState.entangledPairs) {
+                    const card1 = gameState.cards[pair[0]];
+                    const card2 = gameState.cards[pair[1]];
+                    
+                    if ((!card1.classList.contains('flipped') && !card1.classList.contains('matched')) || 
+                        (!card2.classList.contains('flipped') && !card2.classList.contains('matched'))) {
+                        
+                        // Create hint effect
+                        if (!card1.classList.contains('flipped') && !card1.classList.contains('matched')) {
+                            createHintEffect(card1);
+                        }
+                        if (!card2.classList.contains('flipped') && !card2.classList.contains('matched')) {
+                            createHintEffect(card2);
+                        }
+                        
+                        // Disable hint button for a while
+                        const hintBtn = document.getElementById('hint-btn');
+                        hintBtn.disabled = true;
+                        setTimeout(() => {
+                            hintBtn.disabled = false;
+                        }, 5000);
+                        
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Create hint effect for a card
+        function createHintEffect(card) {
+            anime({
+                targets: card,
+                keyframes: [
+                    {scale: 1.1, backgroundColor: 'rgba(255, 69, 0, 0.3)', duration: 300},
+                    {scale: 1.05, backgroundColor: 'rgba(20, 5, 35, 0.9)', duration: 300},
+                    {scale: 1.1, backgroundColor: 'rgba(255, 69, 0, 0.3)', duration: 300},
+                    {scale: 1, backgroundColor: 'rgba(20, 5, 35, 0.9)', duration: 300}
+                ],
+                easing: 'easeInOutQuad'
+            });
+        }
+
+        // Toggle sound
+        function toggleSound() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            const btn = document.getElementById('sound-btn');
+            if (gameState.soundEnabled) {
+                btn.innerHTML = '<i class="fas fa-volume-up"></i> Toggle Quantum Resonance';
+            } else {
+                btn.innerHTML = '<i class="fas fa-volume-mute"></i> Quantum Resonance: OFF';
+            }
+        }
+
+        // Initialize sounds
+        function initSounds() {
+            // This would typically use Howler.js for spatial audio
+            // For this example, we'll just set up the framework
+            console.log("Quantum resonance audio system initialized");
+        }
+
+        // Create floating orbs for background
+        function createFloatingOrbs() {
+            const effectsContainer = document.getElementById('quantum-effects');
+            
+            for (let i = 0; i < 8; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'floating-orbs';
+                orb.style.left = `${Math.random() * 100}vw`;
+                orb.style.top = `${Math.random() * 100}vh`;
+                effectsContainer.appendChild(orb);
+                
+                // Animate orb
+                anime({
+                    targets: orb,
+                    translateX: () => anime.random(-100, 100),
+                    translateY: () => anime.random(-100, 100),
+                    opacity: [0.3, 0.7, 0.3],
+                    scale: [0.5, 1.5, 0.5],
+                    duration: anime.random(8000, 15000),
+                    easing: 'easeInOutQuad',
+                    loop: true,
+                    delay: anime.random(0, 5000)
+                });
+            }
+        }
+
+        // Start game timer
+        function startTimer() {
+            gameState.startTime = new Date();
+            gameState.timerInterval = setInterval(() => {
+                gameState.currentTime = Math.floor((new Date() - gameState.startTime) / 1000);
+            }, 1000);
+        }
+
+        // Reset game timer
+        function resetTimer() {
+            clearInterval(gameState.timerInterval);
+            gameState.startTime = new Date();
+            gameState.currentTime = 0;
+            gameState.timerInterval = setInterval(() => {
+                gameState.currentTime = Math.floor((new Date() - gameState.startTime) / 1000);
+            }, 1000);
+        }
+
+        // Format time as MM:SS
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Update game display
+        function updateDisplay() {
+            document.getElementById('moves').textContent = gameState.moves;
+            document.getElementById('pairs').textContent = gameState.matchedPairs;
+            document.getElementById('total-pairs').textContent = gameState.totalPairs;
+            document.getElementById('level').textContent = gameState.level;
+            
+            // Update progress bar
+            const progress = (gameState.matchedPairs / gameState.totalPairs) * 100;
+            document.getElementById('quantum-progress').style.width = `${progress}%`;
+            
+            // Update collapse probability (decreases as game progresses)
+            const collapseProb = Math.max(50, 100 - (gameState.moves * 2));
+            document.getElementById('collapse-prob').textContent = `${collapseProb}%`;
+        }
+
+        // Toggle settings panel
+        function toggleSettings() {
+            const panel = document.getElementById('settings-panel');
+            panel.classList.toggle('settings-active');
+        }
+
+        // Apply settings
+        function applySettings() {
+            gameState.settings.animationSpeed = document.getElementById('animation-speed').value;
+            gameState.settings.difficulty = document.getElementById('difficulty').value;
+            gameState.settings.visualEffects = document.getElementById('visual-effects').value;
+            gameState.settings.cardSet = document.getElementById('card-set').value;
+            
+            // Regenerate cards with new settings
+            generateCards();
+            
+            // Close settings panel
+            document.getElementById('settings-panel').classList.remove('settings-active');
+            
+            // Show confirmation
+            showAchievement('Settings Applied', 'Quantum configuration updated successfully!');
+        }
+
+        // Show tutorial
+        function showTutorial() {
+            document.getElementById('quantum-tutorial').style.display = 'flex';
+            showTutorialSlide(1);
+        }
+
+        // Close tutorial
+        function closeTutorial() {
+            document.getElementById('quantum-tutorial').style.display = 'none';
+        }
+
+        // Show specific tutorial slide
+        function showTutorialSlide(slideNum) {
+            // Hide all slides
+            document.querySelectorAll('.tutorial-slide').forEach(slide => {
+                slide.classList.remove('tutorial-active');
+            });
+            
+            // Show selected slide
+            document.getElementById(`slide-${slideNum}`).classList.add('tutorial-active');
+            
+            // Update indicators
+            document.querySelectorAll('.tutorial-indicator').forEach((indicator, index) => {
+                if (index + 1 === slideNum) {
+                    indicator.classList.add('indicator-active');
+                } else {
+                    indicator.classList.remove('indicator-active');
+                }
+            });
+        }
+
+        // Start playing (close tutorial)
+        function startPlaying() {
+            closeTutorial();
+            generateCards();
+        }
+
+        // Show multiverse preview
+        function showMultiversePreview() {
+            // Generate alternate universe stats
+            const altMoves = gameState.moves + Math.floor(Math.random() * 10) - 5;
+            const altPairs = gameState.matchedPairs + Math.floor(Math.random() * 4) - 2;
+            
+            document.getElementById('mv-moves').textContent = Math.max(0, altMoves);
+            document.getElementById('mv-pairs').textContent = Math.max(0, Math.min(gameState.totalPairs, altPairs));
+            
+            document.getElementById('multiverse-preview').classList.add('multiverse-active');
+        }
+
+        // Close multiverse preview
+        function closeMultiversePreview() {
+            document.getElementById('multiverse-preview').classList.remove('multiverse-active');
+        }
+
+        // Close completion modal
+        function closeCompletionModal() {
+            document.getElementById('completion-modal').classList.remove('modal-active');
+        }
+
+        // Initialize the game when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
