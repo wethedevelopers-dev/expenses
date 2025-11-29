@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetPal - Premium Finance Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Lottie Animations -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <!-- Mo.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Barba.js -->
+    <script src="https://unpkg.com/@barba/core"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #4e73df;
+            --primary-dark: #2e59d9;
+            --primary-light: #7a9ff5;
+            --income-color: #1cc88a;
+            --income-dark: #17a673;
+            --expense-color: #e74a3b;
+            --expense-dark: #be2617;
+            --dark-bg: #0f1422;
+            --dark-card: #1a2035;
+            --dark-card-hover: #21283e;
+            --text-light: #f8f9fc;
+            --text-muted: #8a94a6;
+            --text-dark: #5a6072;
+            --success: #1cc88a;
+            --warning: #f6c23e;
+            --danger: #e74a3b;
+            --info: #36b9cc;
+            --gradient-primary: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+            --gradient-success: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+            --gradient-danger: linear-gradient(135deg, #e74a3b 0%, #be2617 100%);
+            --gradient-warning: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+            --shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            --shadow-lg: 0 0.5rem 2rem 0 rgba(0, 0, 0, 0.3);
+            --border-radius: 0.75rem;
+            --border-radius-sm: 0.5rem;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--dark-card);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(26, 32, 53, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.75rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            margin: 0 0.25rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(78, 115, 223, 0.1);
+            color: var(--primary-light) !important;
+        }
+        
+        .navbar-toggler {
+            border: none;
+            color: var(--text-light);
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        /* Card Styles */
+        .card {
+            background-color: var(--dark-card);
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            background-color: var(--dark-card-hover);
+        }
+        
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .income-text {
+            color: var(--income-color);
+        }
+        
+        .expense-text {
+            color: var(--expense-color);
+        }
+        
+        /* Progress Bar */
+        .progress {
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 10px;
+        }
+        
+        /* Form Styles */
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border-radius: var(--border-radius-sm);
+            padding: 0.75rem 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            color: var(--text-light);
+            box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+        }
+        
+        .form-label {
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Button Styles */
+        .btn {
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(78, 115, 223, 0.3);
+        }
+        
+        .btn-success {
+            background: var(--gradient-success);
+            border: none;
+        }
+        
+        .btn-danger {
+            background: var(--gradient-danger);
+            border: none;
+        }
+        
+        .btn-outline-light {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+        }
+        
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Table Styles */
+        .table {
+            color: var(--text-light);
+            margin-bottom: 0;
+        }
+        
+        .table th {
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            padding: 1rem 0.75rem;
+        }
+        
+        .table td {
+            border-color: rgba(255, 255, 255, 0.05);
+            padding: 1rem 0.75rem;
+            vertical-align: middle;
+        }
+        
+        .table tbody tr {
+            transition: var(--transition);
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        
+        .transaction-income {
+            color: var(--income-color);
+            font-weight: 600;
+        }
+        
+        .transaction-expense {
+            color: var(--expense-color);
+            font-weight: 600;
+        }
+        
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            margin: 0 0.1rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* Lottie Animations */
+        .lottie-animation {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 0.75rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        /* Welcome Animation */
+        .welcome-section {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin: 0 1rem;
+            color: var(--text-muted);
+        }
+        
+        .feature-item i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        /* Financial Goals */
+        .goal-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .goal-progress {
+            position: relative;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .goal-progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        /* Budget Categories */
+        .category-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            margin: 0.25rem;
+        }
+        
+        .category-badge i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Notifications */
+        .notification-toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 300px;
+            background: var(--dark-card);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-lg);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .notification-toast.show {
+            transform: translateX(0);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--dark-card);
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            transition: var(--transition);
+        }
+        
+        .dark-mode-toggle::before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary);
+            transition: var(--transition);
+            left: 4px;
+        }
+        
+        .dark-mode-toggle.active::before {
+            transform: translateX(30px);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .card-value {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-section {
+                padding: 2rem 0;
+            }
+            
+            .feature-highlight {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .feature-item {
+                margin: 0.5rem 0;
+            }
+            
+            .navbar-nav {
+                margin-top: 1rem;
+            }
+            
+            .nav-link {
+                padding: 0.75rem 1rem !important;
+            }
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Three.js Background */
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(78, 115, 223, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Pulse Animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(78, 115, 223, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(78, 115, 223, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(78, 115, 223, 0); }
+        }
+        
+        /* Financial Insights */
+        .insight-card {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .insight-positive {
+            border-left-color: var(--income-color);
+        }
+        
+        .insight-negative {
+            border-left-color: var(--expense-color);
+        }
+        
+        /* Transaction Filters */
+        .filter-buttons .btn {
+            margin: 0.25rem;
+        }
+        
+        /* Currency Selector */
+        .currency-selector {
+            max-width: 150px;
+        }
+        
+        /* Savings Goals */
+        .savings-goal {
+            position: relative;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 1rem;
+        }
+        
+        .savings-progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .savings-progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        /* Financial Health Meter */
+        .health-meter {
+            position: relative;
+            height: 120px;
+            width: 120px;
+            margin: 0 auto;
+        }
+        
+        .meter-circle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--success) 0%, var(--warning) 50%, var(--danger) 100%);
+            mask: radial-gradient(transparent 55%, #000 56%);
+            -webkit-mask: radial-gradient(transparent 55%, #000 56%);
+        }
+        
+        .meter-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        /* Transaction Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.3rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+        
+        .timeline-income::before {
+            background: var(--income-color);
+        }
+        
+        .timeline-expense::before {
+            background: var(--expense-color);
+        }
+        
+        /* Budget Alerts */
+        .alert-budget {
+            background: rgba(246, 194, 62, 0.1);
+            border-left: 4px solid var(--warning);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-budget.warning {
+            background: rgba(231, 74, 59, 0.1);
+            border-left-color: var(--danger);
+        }
+        
+        /* Quick Actions */
+        .quick-actions .btn {
+            margin: 0.25rem;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        /* Financial Tips */
+        .tip-card {
+            background: rgba(78, 115, 223, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark-card);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-around;
+            z-index: 1000;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mobile-menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-item.active, .mobile-menu-item:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-item i {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Print Styles */
+        @media print {
+            .navbar, .btn, .mobile-menu {
+                display: none !important;
+            }
+            
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Background -->
+    <div id="three-bg"></div>
+    
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Floating Elements -->
+    <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%;"></div>
+    <div class="floating-element" style="width: 150px; height: 150px; top: 60%; right: 10%;"></div>
+    <div class="floating-element" style="width: 80px; height: 80px; bottom: 20%; left: 15%;"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-wallet"></i>
+                BudgetPal
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-chart-line me-1"></i> Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-bullseye me-1"></i> Goals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cog me-1"></i> Settings</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="currencyDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-dollar-sign me-1"></i> USD
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">USD ($)</a></li>
+                            <li><a class="dropdown-item" href="#">EUR (€)</a></li>
+                            <li><a class="dropdown-item" href="#">GBP (£)</a></li>
+                            <li><a class="dropdown-item" href="#">JPY (¥)</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dark-mode-toggle me-3" id="darkModeToggle">
+                        <i class="fas fa-sun" style="color: #f6c23e; z-index: 2; position: relative;"></i>
+                        <i class="fas fa-moon" style="color: #4e73df; z-index: 2; position: relative; margin-left: auto;"></i>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="addTransactionBtn">
+                        <i class="fas fa-plus me-1"></i> New Transaction
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <div class="container">
+            <div class="welcome-content">
+                <lottie-player 
+                    src="https://assets1.lottiefiles.com/packages/lf20_6wutsrox.json" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 200px; height: 200px; margin: 0 auto;" 
+                    loop 
+                    autoplay>
+                </lottie-player>
+                <h1 class="display-5 fw-bold mb-3">Welcome to BudgetPal</h1>
+                <p class="lead mb-4">Take control of your finances with our premium dashboard</p>
+                
+                <div class="feature-highlight">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i> Secure & Private
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-pie"></i> Visual Analytics
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bullseye"></i> Goal Tracking
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-mobile-alt"></i> Fully Responsive
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container my-5">
+        <!-- Financial Overview Cards -->
+        <div class="row mb-5">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary h-100 py-2" data-aos="fade-up" data-aos-delay="0">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="card-title">Total Balance</div>
+                                <div class="card-value" id="totalBalance">$0.00</div>
+                                <div class="mt-2">
+                                    <small class="text-success"><i class="fas fa-caret-up me-1"></i> 2.5% from last month</small>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="card-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success h-100 py-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="card-title">Total Income</div>
+                                <div class="card-value income-text" id="totalIncome">$0.00</div>
+                                <div class="mt-2">
+                                    <small class="text-success"><i class="fas fa-caret-up me-1"></i> 5.2% from last month</small>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="card-icon" style="background: var(--gradient-success);">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-danger h-100 py-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="card-title">Total Expenses</div>
+                                <div class="card-value expense-text" id="totalExpenses">$0.00</div>
+                                <div class="mt-2">
+                                    <small class="text-danger"><i class="fas fa-caret-down me-1"></i> 3.1% from last month</small>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="card-icon" style="background: var(--gradient-danger);">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning h-100 py-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="card-title">Monthly Budget</div>
+                                <div class="mb-1">
+                                    <small>Budget: $<span id="budgetAmount">0</span></small>
+                                    <small class="float-end">Spent: $<span id="monthlySpent">0</span></small>
+                                </div>
+                                <div class="progress">
+                                    <div id="budgetProgress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div class="mt-2">
+                                    <input type="number" class="form-control form-control-sm" id="monthlyBudget" placeholder="Set monthly budget">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Financial Health & Quick Actions -->
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <div class="card h-100" data-aos="fade-up">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-heartbeat me-2"></i>Financial Health</h5>
+                        <div class="health-meter">
+                            <div class="meter-circle"></div>
+                            <div class="meter-value">78</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Spending Insights</h6>
+                                <div class="insight-card p-3 mb-3 insight-positive">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Food & Dining</span>
+                                        <span class="income-text">-12%</span>
+                                    </div>
+                                    <small class="text-muted">You've spent less on dining this month</small>
+                                </div>
+                                <div class="insight-card p-3 mb-3 insight-negative">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Entertainment</span>
+                                        <span class="expense-text">+24%</span>
+                                    </div>
+                                    <small class="text-muted">Entertainment expenses have increased</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Budget Alerts</h6>
+                                <div class="alert-budget">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Shopping Budget</span>
+                                        <span class="text-warning">85% used</span>
+                                    </div>
+                                    <small class="text-muted">You've almost reached your shopping budget</small>
+                                </div>
+                                <div class="alert-budget warning">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Entertainment Budget</span>
+                                        <span class="text-danger">105% used</span>
+                                    </div>
+                                    <small class="text-muted">You've exceeded your entertainment budget</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions d-flex flex-wrap">
+                            <button class="btn btn-outline-light">
+                                <i class="fas fa-receipt me-1"></i> Add Bill
+                            </button>
+                            <button class="btn btn-outline-light">
+                                <i class="fas fa-piggy-bank me-1"></i> Set Goal
+                            </button>
+                            <button class="btn btn-outline-light">
+                                <i class="fas fa-chart-bar me-1"></i> Reports
+                            </button>
+                            <button class="btn btn-outline-light">
+                                <i class="fas fa-file-export me-1"></i> Export
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h6>Financial Tips</h6>
+                            <div class="tip-card">
+                                <p class="mb-0">Try to save at least 20% of your income each month for long-term financial health.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Transaction Input Form -->
+        <div class="row mb-5" data-aos="fade-up">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add New Transaction</h5>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="recurringTransaction">
+                            <label class="form-check-label" for="recurringTransaction">Recurring</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="transactionForm">
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="description" placeholder="Enter description" required>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label for="amount" class="form-label">Amount</label>
+                                    <input type="number" class="form-control" id="amount" step="0.01" placeholder="0.00" required>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label for="type" class="form-label">Type</label>
+                                    <select class="form-select" id="type">
+                                        <option value="income">Income</option>
+                                        <option value="expense">Expense</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select class="form-select" id="category">
+                                        <option value="Salary">Salary</option>
+                                        <option value="Freelance">Freelance</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Shopping">Shopping</option>
+                                        <option value="Transport">Transport</option>
+                                        <option value="Entertainment">Entertainment</option>
+                                        <option value="Utilities">Utilities</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="date" required>
+                                </div>
+                                <div class="col-md-1 mb-3 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary w-100" id="submitBtn">
+                                        <i class="fas fa-plus me-1"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row" id="recurringOptions" style="display: none;">
+                                <div class="col-md-3 mb-3">
+                                    <label for="frequency" class="form-label">Frequency</label>
+                                    <select class="form-select" id="frequency">
+                                        <option value="weekly">Weekly</option>
+                                        <option value="biweekly">Bi-weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="endDate" class="form-label">End Date (Optional)</label>
+                                    <input type="date" class="form-control" id="endDate">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Section -->
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <div class="card" data-aos="fade-up">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Spending by Category</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="chartPeriod" data-bs-toggle="dropdown">
+                                This Month
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">This Week</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Cash Flow Over Time</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="lineChartPeriod" data-bs-toggle="dropdown">
+                                Last 6 Months
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Last 3 Months</a></li>
+                                <li><a class="dropdown-item" href="#">Last 6 Months</a></li>
+                                <li><a class="dropdown-item" href="#">Last Year</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Savings Goals -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card" data-aos="fade-up">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-bullseye me-2"></i>Savings Goals</h5>
+                        <button class="btn btn-sm btn-primary" id="addGoalBtn">
+                            <i class="fas fa-plus me-1"></i> Add Goal
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="savings-goal">
+                                    <div class="d-flex justify-content-between">
+                                        <h6>Emergency Fund</h6>
+                                        <span class="text-success">$2,400/$5,000</span>
+                                    </div>
+                                    <div class="savings-progress">
+                                        <div class="savings-progress-bar bg-success" style="width: 48%"></div>
+                                    </div>
+                                    <small class="text-muted">48% completed • Target: Dec 2023</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="savings-goal">
+                                    <div class="d-flex justify-content-between">
+                                        <h6>New Car</h6>
+                                        <span class="text-info">$8,750/$15,000</span>
+                                    </div>
+                                    <div class="savings-progress">
+                                        <div class="savings-progress-bar bg-info" style="width: 58%"></div>
+                                    </div>
+                                    <small class="text-muted">58% completed • Target: Jun 2024</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="savings-goal">
+                                    <div class="d-flex justify-content-between">
+                                        <h6>Vacation</h6>
+                                        <span class="text-warning">$900/$2,500</span>
+                                    </div>
+                                    <div class="savings-progress">
+                                        <div class="savings-progress-bar bg-warning" style="width: 36%"></div>
+                                    </div>
+                                    <small class="text-muted">36% completed • Target: Aug 2023</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Transaction History -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card" data-aos="fade-up">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-history me-2"></i>Transaction History</h5>
+                        <div class="d-flex">
+                            <div class="filter-buttons me-3">
+                                <button class="btn btn-sm btn-outline-light active">All</button>
+                                <button class="btn btn-sm btn-outline-light">Income</button>
+                                <button class="btn btn-sm btn-outline-light">Expenses</button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-light" id="clearAllBtn">
+                                <i class="fas fa-trash-alt me-1"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="transactionTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionList">
+                                    <!-- Transactions will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu d-lg-none">
+        <a href="#" class="mobile-menu-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="mobile-menu-item">
+            <i class="fas fa-chart-pie"></i>
+            <span>Stats</span>
+        </a>
+        <a href="#" class="mobile-menu-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>Add</span>
+        </a>
+        <a href="#" class="mobile-menu-item">
+            <i class="fas fa-bullseye"></i>
+            <span>Goals</span>
+        </a>
+        <a href="#" class="mobile-menu-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </div>
+    
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div>
+            <h6 class="mb-0" id="toastTitle">Success</h6>
+            <p class="mb-0 text-muted" id="toastMessage">Transaction added successfully</p>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // Global variables
+        let transactions = [];
+        let nextId = 1;
+        let pieChart, lineChart;
+        let isEditing = false;
+        let editingId = null;
+        let currency = 'USD';
+        let currencySymbols = {
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£',
+            'JPY': '¥'
+        };
+
+        // Initialize the application
+        $(document).ready(function() {
+            // Initialize AOS animations
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Initialize particles background
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 60, density: { enable: true, value_area: 800 } },
+                    color: { value: "#4e73df" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#4e73df",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                }
+            });
+
+            // Initialize Three.js background
+            initThreeBackground();
+            
+            // Initialize Lenis smooth scroll
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+            
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            
+            requestAnimationFrame(raf);
+            
+            // Load data from localStorage
+            loadTransactions();
+            
+            // Set current date as default
+            $('#date').val(new Date().toISOString().split('T')[0]);
+            
+            // Set up event listeners
+            $('#transactionForm').on('submit', handleFormSubmit);
+            $('#monthlyBudget').on('change', setMonthlyBudget);
+            $('#exportBtn').on('click', exportData);
+            $('#importBtn').on('click', () => $('#importFile').click());
+            $('#importFile').on('change', importData);
+            $('#clearAllBtn').on('click', clearAllTransactions);
+            $('#recurringTransaction').on('change', toggleRecurringOptions);
+            $('#darkModeToggle').on('click', toggleDarkMode);
+            $('#addTransactionBtn').on('click', scrollToTransactionForm);
+            $('#addGoalBtn').on('click', addNewGoal);
+            
+            // Filter buttons
+            $('.filter-buttons .btn').on('click', function() {
+                $('.filter-buttons .btn').removeClass('active');
+                $(this).addClass('active');
+                filterTransactions($(this).text());
+            });
+            
+            // Currency dropdown
+            $('.dropdown-item').on('click', function() {
+                const selectedCurrency = $(this).text().split(' ')[0];
+                changeCurrency(selectedCurrency);
+            });
+            
+            // Initial UI update
+            updateUI();
+            
+            // Welcome animation
+            anime({
+                targets: '.welcome-section',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 1500,
+                easing: 'easeOutElastic(1, .8)'
+            });
+            
+            // Card animations
+            anime({
+                targets: '.card',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                delay: anime.stagger(100),
+                duration: 1000,
+                easing: 'easeOutQuad'
+            });
+        });
+
+        // Initialize Three.js background
+        function initThreeBackground() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('three-bg').appendChild(renderer.domElement);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1000;
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x4e73df,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            camera.position.z = 5;
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.001;
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Load transactions from localStorage
+        function loadTransactions() {
+            const storedTransactions = localStorage.getItem('budgetpal-transactions');
+            const storedNextId = localStorage.getItem('budgetpal-nextid');
+            const storedBudget = localStorage.getItem('budgetpal-budget');
+            const storedCurrency = localStorage.getItem('budgetpal-currency');
+            
+            if (storedTransactions) {
+                transactions = JSON.parse(storedTransactions);
+            }
+            
+            if (storedNextId) {
+                nextId = parseInt(storedNextId);
+            }
+            
+            if (storedBudget) {
+                $('#monthlyBudget').val(storedBudget);
+            }
+            
+            if (storedCurrency) {
+                currency = storedCurrency;
+                $(`#currencyDropdown`).html(`<i class="fas fa-dollar-sign me-1"></i> ${currency}`);
+            }
+        }
+
+        // Save transactions to localStorage
+        function saveTransactions() {
+            localStorage.setItem('budgetpal-transactions', JSON.stringify(transactions));
+            localStorage.setItem('budgetpal-nextid', nextId.toString());
+            localStorage.setItem('budgetpal-currency', currency);
+        }
+
+        // Handle form submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const description = $('#description').val().trim();
+            const amount = parseFloat($('#amount').val());
+            const type = $('#type').val();
+            const category = $('#category').val();
+            const date = $('#date').val();
+            const isRecurring = $('#recurringTransaction').is(':checked');
+            const frequency = $('#frequency').val();
+            const endDate = $('#endDate').val();
+            
+            if (!description || isNaN(amount) || amount <= 0) {
+                showNotification('Error', 'Please enter valid transaction details.', 'error');
+                return;
+            }
+            
+            const transactionAmount = type === 'income' ? amount : -amount;
+            
+            if (isEditing) {
+                // Update existing transaction
+                const index = transactions.findIndex(t => t.id === editingId);
+                if (index !== -1) {
+                    transactions[index] = {
+                        ...transactions[index],
+                        description,
+                        amount: transactionAmount,
+                        category,
+                        date
+                    };
+                    
+                    // Reset form
+                    resetForm();
+                    
+                    // Save and update UI
+                    saveTransactions();
+                    updateUI();
+                    
+                    // Show success notification
+                    showNotification('Success', 'Transaction updated successfully!', 'success');
+                }
+            } else {
+                // Add new transaction
+                const transaction = {
+                    id: nextId++,
+                    description,
+                    amount: transactionAmount,
+                    category,
+                    date,
+                    isRecurring,
+                    frequency: isRecurring ? frequency : null,
+                    endDate: isRecurring ? endDate : null
+                };
+                
+                transactions.push(transaction);
+                
+                // Reset form
+                resetForm();
+                
+                // Save and update UI
+                saveTransactions();
+                updateUI();
+                
+                // Show success notification with animation
+                showNotification('Success', 'Transaction added successfully!', 'success');
+                
+                // Create confetti animation
+                createConfetti();
+            }
+        }
+
+        // Reset form to initial state
+        function resetForm() {
+            $('#transactionForm')[0].reset();
+            $('#date').val(new Date().toISOString().split('T')[0]);
+            $('#submitBtn').html('<i class="fas fa-plus me-1"></i> Add');
+            $('#recurringOptions').hide();
+            isEditing = false;
+            editingId = null;
+        }
+
+        // Toggle recurring transaction options
+        function toggleRecurringOptions() {
+            if ($('#recurringTransaction').is(':checked')) {
+                $('#recurringOptions').slideDown(300);
+            } else {
+                $('#recurringOptions').slideUp(300);
+            }
+        }
+
+        // Delete a transaction
+        function deleteTransaction(id) {
+            // Create confirmation modal with animation
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="background: var(--dark-card); color: var(--text-light);">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm Deletion</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this transaction? This action cannot be undone.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+            
+            $('#confirmDelete').on('click', function() {
+                transactions = transactions.filter(t => t.id !== id);
+                saveTransactions();
+                updateUI();
+                modalInstance.hide();
+                
+                // Remove modal from DOM after hiding
+                modal.addEventListener('hidden.bs.modal', function() {
+                    document.body.removeChild(modal);
+                });
+                
+                // Show delete notification
+                showNotification('Deleted', 'Transaction has been deleted.', 'warning');
+            });
+        }
+
+        // Edit a transaction
+        function editTransaction(id) {
+            const transaction = transactions.find(t => t.id === id);
+            if (transaction) {
+                $('#description').val(transaction.description);
+                $('#amount').val(Math.abs(transaction.amount));
+                $('#type').val(transaction.amount > 0 ? 'income' : 'expense');
+                $('#category').val(transaction.category);
+                $('#date').val(transaction.date);
+                
+                if (transaction.isRecurring) {
+                    $('#recurringTransaction').prop('checked', true);
+                    $('#frequency').val(transaction.frequency);
+                    $('#endDate').val(transaction.endDate);
+                    $('#recurringOptions').show();
+                }
+                
+                $('#submitBtn').html('<i class="fas fa-sync-alt me-1"></i> Update');
+                isEditing = true;
+                editingId = id;
+                
+                // Scroll to form with smooth animation
+                scrollToTransactionForm();
+            }
+        }
+
+        // Scroll to transaction form
+        function scrollToTransactionForm() {
+            $('html, body').animate({
+                scrollTop: $('#transactionForm').offset().top - 100
+            }, 800);
+        }
+
+        // Set monthly budget
+        function setMonthlyBudget() {
+            const budget = parseFloat($('#monthlyBudget').val()) || 0;
+            localStorage.setItem('budgetpal-budget', budget.toString());
+            updateUI();
+            
+            // Show notification
+            if (budget > 0) {
+                showNotification('Budget Set', `Monthly budget set to ${formatCurrency(budget)}`, 'info');
+            }
+        }
+
+        // Change currency
+        function changeCurrency(newCurrency) {
+            currency = newCurrency;
+            localStorage.setItem('budgetpal-currency', currency);
+            $(`#currencyDropdown`).html(`<i class="fas fa-dollar-sign me-1"></i> ${currency}`);
+            updateUI();
+            
+            // Show notification
+            showNotification('Currency Changed', `Currency changed to ${currency}`, 'info');
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            $('body').toggleClass('light-mode');
+            $('#darkModeToggle').toggleClass('active');
+            
+            // Save preference to localStorage
+            const isDarkMode = !$('body').hasClass('light-mode');
+            localStorage.setItem('budgetpal-darkmode', isDarkMode);
+            
+            // Show notification
+            showNotification('Theme Changed', `Switched to ${isDarkMode ? 'dark' : 'light'} mode`, 'info');
+        }
+
+        // Add new goal
+        function addNewGoal() {
+            // Create modal for adding new goal
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="background: var(--dark-card); color: var(--text-light);">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New Savings Goal</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="goalForm">
+                                <div class="mb-3">
+                                    <label for="goalName" class="form-label">Goal Name</label>
+                                    <input type="text" class="form-control" id="goalName" placeholder="e.g., New Car, Vacation">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="goalTarget" class="form-label">Target Amount</label>
+                                    <input type="number" class="form-control" id="goalTarget" placeholder="0.00">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="goalDeadline" class="form-label">Target Date</label>
+                                    <input type="date" class="form-control" id="goalDeadline">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="saveGoal">Save Goal</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+            
+            $('#saveGoal').on('click', function() {
+                const goalName = $('#goalName').val();
+                const goalTarget = $('#goalTarget').val();
+                const goalDeadline = $('#goalDeadline').val();
+                
+                if (goalName && goalTarget && goalDeadline) {
+                    // In a real app, you would save this to your goals data
+                    showNotification('Goal Added', `"${goalName}" goal has been created`, 'success');
+                    modalInstance.hide();
+                    
+                    // Remove modal from DOM after hiding
+                    modal.addEventListener('hidden.bs.modal', function() {
+                        document.body.removeChild(modal);
+                    });
+                } else {
+                    showNotification('Error', 'Please fill all fields', 'error');
+                }
+            });
+        }
+
+        // Filter transactions
+        function filterTransactions(filter) {
+            // This would filter the transaction list based on the selected filter
+            // For now, we'll just update the UI
+            updateTransactionList();
+            
+            // Show notification
+            if (filter !== 'All') {
+                showNotification('Filter Applied', `Showing ${filter.toLowerCase()} transactions`, 'info');
+            }
+        }
+
+        // Update all UI elements
+        function updateUI() {
+            updateOverviewCards();
+            updateCharts();
+            updateTransactionList();
+            updateFinancialHealth();
+        }
+
+        // Update overview cards
+        function updateOverviewCards() {
+            let totalIncome = 0;
+            let totalExpenses = 0;
+            
+            transactions.forEach(transaction => {
+                if (transaction.amount > 0) {
+                    totalIncome += transaction.amount;
+                } else {
+                    totalExpenses += Math.abs(transaction.amount);
+                }
+            });
+            
+            const totalBalance = totalIncome - totalExpenses;
+            
+            $('#totalBalance').text(formatCurrency(totalBalance));
+            $('#totalIncome').text(formatCurrency(totalIncome));
+            $('#totalExpenses').text(formatCurrency(totalExpenses));
+            
+            // Update monthly budget progress
+            const budget = parseFloat($('#monthlyBudget').val()) || 0;
+            $('#budgetAmount').text(formatCurrency(budget, true));
+            $('#monthlySpent').text(formatCurrency(totalExpenses, true));
+            
+            let progressPercentage = 0;
+            if (budget > 0) {
+                progressPercentage = Math.min((totalExpenses / budget) * 100, 100);
+            }
+            
+            const progressBar = $('#budgetProgress');
+            progressBar.css('width', `${progressPercentage}%`);
+            
+            // Change color based on progress
+            if (progressPercentage < 50) {
+                progressBar.removeClass('bg-warning bg-danger').addClass('bg-success');
+            } else if (progressPercentage < 75) {
+                progressBar.removeClass('bg-success bg-danger').addClass('bg-warning');
+            } else {
+                progressBar.removeClass('bg-success bg-warning').addClass('bg-danger');
+            }
+            
+            // Animate card values
+            animateValue('totalBalance', totalBalance);
+            animateValue('totalIncome', totalIncome);
+            animateValue('totalExpenses', totalExpenses);
+        }
+
+        // Update financial health meter
+        function updateFinancialHealth() {
+            // Calculate financial health score (simplified)
+            const budget = parseFloat($('#monthlyBudget').val()) || 0;
+            let totalExpenses = 0;
+            
+            transactions.forEach(transaction => {
+                if (transaction.amount < 0) {
+                    totalExpenses += Math.abs(transaction.amount);
+                }
+            });
+            
+            let healthScore = 75; // Default score
+            
+            if (budget > 0) {
+                const budgetUsage = (totalExpenses / budget) * 100;
+                if (budgetUsage < 60) {
+                    healthScore = 90;
+                } else if (budgetUsage < 80) {
+                    healthScore = 75;
+                } else if (budgetUsage < 100) {
+                    healthScore = 60;
+                } else {
+                    healthScore = 40;
+                }
+            }
+            
+            // Update health meter
+            $('.meter-value').text(healthScore);
+            
+            // Update meter circle gradient
+            const meterCircle = $('.meter-circle');
+            if (healthScore >= 70) {
+                meterCircle.css('background', 'conic-gradient(var(--success) 0%, var(--success) 100%)');
+            } else if (healthScore >= 50) {
+                meterCircle.css('background', 'conic-gradient(var(--success) 0%, var(--warning) 50%, var(--warning) 100%)');
+            } else {
+                meterCircle.css('background', 'conic-gradient(var(--success) 0%, var(--warning) 50%, var(--danger) 100%)');
+            }
+        }
+
+        // Update charts
+        function updateCharts() {
+            updatePieChart();
+            updateLineChart();
+        }
+
+        // Update pie chart (spending by category)
+        function updatePieChart() {
+            const ctx = document.getElementById('pieChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (pieChart) {
+                pieChart.destroy();
+            }
+            
+            // Calculate category totals (only for expenses)
+            const categoryTotals = {};
+            transactions.forEach(transaction => {
+                if (transaction.amount < 0) {
+                    const category = transaction.category;
+                    const amount = Math.abs(transaction.amount);
+                    
+                    if (categoryTotals[category]) {
+                        categoryTotals[category] += amount;
+                    } else {
+                        categoryTotals[category] = amount;
+                    }
+                }
+            });
+            
+            const categories = Object.keys(categoryTotals);
+            const amounts = Object.values(categoryTotals);
+            
+            // Create color array based on categories
+            const backgroundColors = [
+                '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', 
+                '#e74a3b', '#858796', '#5a5c69', '#6f42c1'
+            ];
+            
+            pieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        data: amounts,
+                        backgroundColor: backgroundColors.slice(0, categories.length),
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#f8f9fc',
+                                padding: 20,
+                                usePointStyle: true,
+                                font: {
+                                    family: 'Inter',
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rg(26, 32, 53, 0.9)',
+                            titleColor: '#f8f9fc',
+                            bodyColor: '#f8f9fc',
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${formatCurrency(value)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // Update line chart (cash flow over time)
+        function updateLineChart() {
+            const ctx = document.getElementById('lineChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (lineChart) {
+                lineChart.destroy();
+            }
+            
+            // Group transactions by date and calculate daily balance
+            const dailyBalances = {};
+            let runningBalance = 0;
+            
+            // Sort transactions by date
+            const sortedTransactions = [...transactions].sort((a, b) => 
+                new Date(a.date) - new Date(b.date)
+            );
+            
+            sortedTransactions.forEach(transaction => {
+                runningBalance += transaction.amount;
+                dailyBalances[transaction.date] = runningBalance;
+            });
+            
+            const dates = Object.keys(dailyBalances);
+            const balances = Object.values(dailyBalances);
+            
+            lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Cumulative Balance',
+                        data: balances,
+                        borderColor: '#4e73df',
+                        backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#4e73df',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#f8f9fc',
+                                maxTicksLimit: 6
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#f8f9fc',
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#f8f9fc',
+                                font: {
+                                    family: 'Inter',
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(26, 32, 53, 0.9)',
+                            titleColor: '#f8f9fc',
+                            bodyColor: '#f8f9fc',
+                            callbacks: {
+                                label: function(context) {
+                                    return `Balance: ${formatCurrency(context.raw)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update transaction list
+        function updateTransactionList() {
+            const transactionList = $('#transactionList');
+            transactionList.empty();
+            
+            if (transactions.length === 0) {
+                transactionList.append(`
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="lottie-animation">
+                                <lottie-player 
+                                    src="https://assets1.lottiefiles.com/packages/lf20_kcsr6fcp.json" 
+                                    background="transparent" 
+                                    speed="1" 
+                                    loop 
+                                    autoplay>
+                                </lottie-player>
+                            </div>
+                            <p class="mt-3 text-muted">No transactions yet. Add your first transaction above!</p>
+                        </td>
+                    </tr>
+                `);
+                return;
+            }
+            
+            // Sort transactions by date (newest first)
+            const sortedTransactions = [...transactions].sort((a, b) => 
+                new Date(b.date) - new Date(a.date)
+            );
+            
+            sortedTransactions.forEach(transaction => {
+                const isIncome = transaction.amount > 0;
+                const amountClass = isIncome ? 'transaction-income' : 'transaction-expense';
+                const amountSign = isIncome ? '+' : '-';
+                const formattedAmount = `${amountSign}${formatCurrency(Math.abs(transaction.amount))}`;
+                const formattedDate = new Date(transaction.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                const recurringIcon = transaction.isRecurring ? 
+                    `<i class="fas fa-sync-alt text-info me-1" title="Recurring transaction"></i>` : '';
+                
+                const row = `
+                    <tr data-aos="fade-up">
+                        <td>${formattedDate}</td>
+                        <td>${recurringIcon} ${transaction.description}</td>
+                        <td>
+                            <span class="category-badge" style="background: rgba(255,255,255,0.1);">
+                                <i class="fas fa-tag me-1"></i> ${transaction.category}
+                            </span>
+                        </td>
+                        <td class="${amountClass} fw-bold">${formattedAmount}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary action-btn" onclick="editTransaction(${transaction.id})" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteTransaction(${transaction.id})" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                
+                transactionList.append(row);
+            });
+        }
+
+        // Export data as CSV
+        function exportData() {
+            if (transactions.length === 0) {
+                showNotification('Error', 'No data to export.', 'error');
+                return;
+            }
+            
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "ID,Date,Description,Category,Amount,Type,Recurring,Frequency,End Date\n";
+            
+            transactions.forEach(transaction => {
+                const row = [
+                    transaction.id,
+                    transaction.date,
+                    `"${transaction.description}"`,
+                    transaction.category,
+                    transaction.amount,
+                    transaction.amount > 0 ? 'Income' : 'Expense',
+                    transaction.isRecurring ? 'Yes' : 'No',
+                    transaction.frequency || '',
+                    transaction.endDate || ''
+                ].join(',');
+                csvContent += row + "\n";
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `budgetpal_data_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Show export notification
+            showNotification('Data Exported', 'Your financial data has been exported successfully.', 'success');
+        }
+
+        // Import data from CSV
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const contents = e.target.result;
+                const lines = contents.split('\n');
+                
+                // Skip header row
+                const importedTransactions = [];
+                let maxId = nextId;
+                
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    const values = parseCSVLine(line);
+                    
+                    if (values.length >= 5) {
+                        const id = parseInt(values[0]);
+                        const date = values[1];
+                        const description = values[2].replace(/"/g, '');
+                        const category = values[3];
+                        const amount = parseFloat(values[4]);
+                        
+                        if (!isNaN(id) && !isNaN(amount)) {
+                            const isRecurring = values.length > 5 && values[5] === 'Yes';
+                            const frequency = values[6] || null;
+                            const endDate = values[7] || null;
+                            
+                            importedTransactions.push({
+                                id,
+                                date,
+                                description,
+                                category,
+                                amount,
+                                isRecurring,
+                                frequency,
+                                endDate
+                            });
+                            
+                            if (id >= maxId) {
+                                maxId = id + 1;
+                            }
+                        }
+                    }
+                }
+                
+                if (importedTransactions.length > 0) {
+                    // Create confirmation modal
+                    const modal = document.createElement('div');
+                    modal.className = 'modal fade';
+                    modal.innerHTML = `
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="background: var(--dark-card); color: var(--text-light);">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Import Data</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>This will import ${importedTransactions.length} transactions and replace your current data. Are you sure?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" id="confirmImport">Import</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(modal);
+                    const modalInstance = new bootstrap.Modal(modal);
+                    modalInstance.show();
+                    
+                    $('#confirmImport').on('click', function() {
+                        transactions = importedTransactions;
+                        nextId = maxId;
+                        saveTransactions();
+                        updateUI();
+                        modalInstance.hide();
+                        
+                        // Remove modal from DOM after hiding
+                        modal.addEventListener('hidden.bs.modal', function() {
+                            document.body.removeChild(modal);
+                        });
+                        
+                        // Show import notification
+                        showNotification('Data Imported', `${importedTransactions.length} transactions imported successfully.`, 'success');
+                    });
+                } else {
+                    showNotification('Error', 'No valid transactions found in the file.', 'error');
+                }
+                
+                // Reset file input
+                $('#importFile').val('');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // Parse CSV line (handling quoted values with commas)
+        function parseCSVLine(line) {
+            const result = [];
+            let inQuotes = false;
+            let currentValue = '';
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(currentValue);
+                    currentValue = '';
+                } else {
+                    currentValue += char;
+                }
+            }
+            
+            result.push(currentValue);
+            return result;
+        }
+
+        // Clear all transactions
+        function clearAllTransactions() {
+            if (transactions.length === 0) {
+                showNotification('Info', 'No transactions to clear.', 'info');
+                return;
+            }
+            
+            // Create confirmation modal
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="background: var(--dark-card); color: var(--text-light);">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Clear All Data</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete all transactions? This action cannot be undone.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" id="confirmClear">Clear All</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+            
+            $('#confirmClear').on('click', function() {
+                transactions = [];
+                nextId = 1;
+                saveTransactions();
+                updateUI();
+                modalInstance.hide();
+                
+                // Remove modal from DOM after hiding
+                modal.addEventListener('hidden.bs.modal', function() {
+                    document.body.removeChild(modal);
+                });
+                
+                // Show clear notification
+                showNotification('Data Cleared', 'All transactions have been deleted.', 'warning');
+            });
+        }
+
+        // Format currency
+        function formatCurrency(amount, hideSymbol = false) {
+            const symbol = hideSymbol ? '' : currencySymbols[currency] || '$';
+            return `${symbol}${new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(amount)}`;
+        }
+
+        // Animate value changes
+        function animateValue(elementId, finalValue) {
+            const element = document.getElementById(elementId);
+            const currentText = element.textContent;
+            const currentValue = parseFloat(currentText.replace(/[^0-9.-]+/g, "")) || 0;
+            const duration = 1000;
+            const startTime = performance.now();
+            
+            function updateValue(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                
+                const current = currentValue + (finalValue - currentValue) * easeOutQuart;
+                element.textContent = formatCurrency(current);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateValue);
+                }
+            }
+            
+            requestAnimationFrame(updateValue);
+        }
+
+        // Show notification
+        function showNotification(title, message, type = 'info') {
+            const toast = $('#notificationToast');
+            const toastTitle = $('#toastTitle');
+            const toastMessage = $('#toastMessage');
+            const toastIcon = $('.notification-icon i');
+            
+            // Set content
+            toastTitle.text(title);
+            toastMessage.text(message);
+            
+            // Set icon and color based on type
+            let iconClass = 'fas fa-info-circle';
+            let bgColor = 'var(--primary)';
+            
+            switch(type) {
+                case 'success':
+                    iconClass = 'fas fa-check-circle';
+                    bgColor = 'var(--success)';
+                    break;
+                case 'error':
+                    iconClass = 'fas fa-exclamation-circle';
+                    bgColor = 'var(--danger)';
+                    break;
+                case 'warning':
+                    iconClass = 'fas fa-exclamation-triangle';
+                    bgColor = 'var(--warning)';
+                    break;
+                case 'info':
+                default:
+                    iconClass = 'fas fa-info-circle';
+                    bgColor = 'var(--primary)';
+            }
+            
+            toastIcon.attr('class', iconClass);
+            $('.notification-icon').css('background', bgColor);
+            toast.css('border-left-color', bgColor);
+            
+            // Show toast
+            toast.addClass('show');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                toast.removeClass('show');
+            }, 5000);
+        }
+
+        // Create confetti animation
+        function createConfetti() {
+            const burst = new mojs.Burst({
+                left: 0, top: 0,
+                count: 12,
+                radius: { 50: 150 },
+                children: {
+                    shape: 'circle',
+                    fill: ['#4e73df', '#1cc88a', '#e74a3b', '#f6c23e'],
+                    radius: { 10: 0 },
+                    duration: 2000,
+                    easing: 'quint.out'
+                }
+            });
+            
+            const burst2 = new mojs.Burst({
+                left: 0, top: 0,
+                count: 8,
+                radius: { 50: 120 },
+                children: {
+                    shape: 'circle',
+                    fill: ['#4e73df', '#1cc88a', '#e74a3b', '#f6c23e'],
+                    radius: { 8: 0 },
+                    duration: 1800,
+                    easing: 'quart.out'
+                }
+            });
+            
+            document.addEventListener('click', function(e) {
+                burst.tune({ x: e.pageX, y: e.pageY }).replay();
+                burst2.tune({ x: e.pageX, y: e.pageY }).replay();
+            });
+            
+            // Trigger confetti at center of screen
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            burst.tune({ x: centerX, y: centerY }).replay();
+            burst2.tune({ x: centerX, y: centerY }).replay();
+        }
+
+        // Check for saved dark mode preference
+        function checkDarkModePreference() {
+            const savedDarkMode = localStorage.getItem('budgetpal-darkmode');
+            if (savedDarkMode === 'false') {
+                $('body').addClass('light-mode');
+                $('#darkModeToggle').addClass('active');
+            }
+        }
+
+        // Initialize dark mode preference
+        checkDarkModePreference();
+    </script>
+</body>
+</html>
